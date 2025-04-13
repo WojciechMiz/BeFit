@@ -1,0 +1,41 @@
+@* Definiuje model dla widoku jako pojedynczy obiekt TrainingSession. *@
+@model BeFit.Models.TrainingSession
+
+@{
+    // Ustawia tytuł strony.
+    ViewData["Title"] = "Szczegóły Sesji Treningowej";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Sesja Treningowa</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @* Wyświetla nazwę dla pola StartTime (z atrybutu [Display] w modelu). *@
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+        <dd class="col-sm-10">
+            @* Wyświetla sformatowaną wartość pola StartTime. *@
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+        <dt class="col-sm-2">
+            @* Wyświetla nazwę dla pola EndTime (z atrybutu [Display] w modelu). *@
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+        <dd class="col-sm-10">
+            @* Wyświetla sformatowaną wartość pola EndTime. *@
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+        @* Usunięto wyświetlanie UserId - nie jest potrzebne w widoku. *@
+    </dl>
+</div>
+<div>
+    @* Link do zarządzania szczegółami (ćwiczeniami) tej sesji. *@
+    <a asp-controller="TrainingDetails" asp-action="Index" asp-route-trainingSessionId="@Model?.Id" class="btn btn-success">Zarządzaj Ćwiczeniami</a> |
+    @* Link do akcji edycji bieżącej sesji. *@
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Edytuj</a> |
+    @* Link powrotu do listy sesji treningowych. *@
+    <a asp-action="Index" class="btn btn-secondary">Powrót do Listy</a>
+</div>

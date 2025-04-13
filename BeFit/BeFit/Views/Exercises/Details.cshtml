@@ -1,0 +1,44 @@
+@* Definiuje model dla widoku jako pojedynczy obiekt Exercise. *@
+@model BeFit.Models.Exercise
+@* Importuje przestrzeń nazw Identity dla sprawdzania ról. *@
+@using Microsoft.AspNetCore.Identity
+
+@{
+    // Ustawia tytuł strony.
+    ViewData["Title"] = "Szczegóły Typu Ćwiczenia";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Typ Ćwiczenia</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @* Wyświetla nazwę dla pola Name (z atrybutu [Display] w modelu). *@
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @* Wyświetla wartość pola Name. *@
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @* Wyświetla nazwę dla pola Description (z atrybutu [Display] w modelu). *@
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @* Wyświetla wartość pola Description. *@
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+<div>
+    @* Sprawdza, czy użytkownik jest Administratorem, aby wyświetlić link Edytuj. *@
+    @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+    {
+        @* Link do akcji edycji bieżącego ćwiczenia. *@
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Edytuj</a> @* Dodano ?.Id dla bezpieczeństwa *@
+    }
+    @* Link powrotu do listy typów ćwiczeń. *@
+    <a asp-action="Index" class="btn btn-secondary">Powrót do Listy</a>
+</div>
