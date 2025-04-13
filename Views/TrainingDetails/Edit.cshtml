@@ -1,0 +1,74 @@
+@* Definiuje model dla widoku jako pojedynczy obiekt TrainingDetail. *@
+@model BeFit.Models.TrainingDetail
+
+@{
+    // Ustawia tytuł strony.
+    ViewData["Title"] = "Edytuj Szczegół Treningu";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Szczegół Treningu</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @* Formularz wysyłający dane do akcji Edit kontrolera TrainingDetails. *@
+        <form asp-action="Edit">
+            @* Kontener na komunikaty błędów walidacji całego modelu. *@
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @* Ukryte pole przechowujące ID edytowanego szczegółu. *@
+            <input type="hidden" asp-for="Id" />
+            @* Ukryte pole przechowujące ID sesji (nie powinno być zmieniane). *@
+            <input type="hidden" asp-for="TrainingSessionId" />
+
+            <div class="form-group mb-3"> @* Dodano mb-3 dla marginesu dolnego *@
+                @* Etykieta dla pola ExerciseId. *@
+                <label asp-for="ExerciseId" class="control-label"></label>
+                @* Lista rozwijana do wyboru ćwiczenia. Pobiera listę z ViewBag.ExerciseId. *@
+                <select asp-for="ExerciseId" class="form-control" asp-items="ViewBag.ExerciseId">
+                     <option value="">-- Wybierz ćwiczenie --</option>
+                </select>
+                @* Miejsce na komunikat błędu walidacji dla pola ExerciseId. *@
+                <span asp-validation-for="ExerciseId" class="text-danger"></span>
+            </div>
+
+            @* Usunięto pole wyboru TrainingSessionId - nie powinno być edytowalne. *@
+
+            <div class="form-group mb-3"> @* Dodano mb-3 dla marginesu dolnego *@
+                @* Etykieta dla pola Load. *@
+                <label asp-for="Load" class="control-label"></label>
+                @* Pole wprowadzania dla pola Load. *@
+                <input asp-for="Load" class="form-control" />
+                @* Miejsce na komunikat błędu walidacji dla pola Load. *@
+                <span asp-validation-for="Load" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3"> @* Dodano mb-3 dla marginesu dolnego *@
+                @* Etykieta dla pola Sets. *@
+                <label asp-for="Sets" class="control-label"></label>
+                @* Pole wprowadzania dla pola Sets. *@
+                <input asp-for="Sets" class="form-control" />
+                @* Miejsce na komunikat błędu walidacji dla pola Sets. *@
+                <span asp-validation-for="Sets" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3"> @* Dodano mb-3 dla marginesu dolnego *@
+                @* Etykieta dla pola Repetitions. *@
+                <label asp-for="Repetitions" class="control-label"></label>
+                @* Pole wprowadzania dla pola Repetitions. *@
+                <input asp-for="Repetitions" class="form-control" />
+                @* Miejsce na komunikat błędu walidacji dla pola Repetitions. *@
+                <span asp-validation-for="Repetitions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @* Przycisk zapisujący zmiany. *@
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+                @* Link powrotu do listy szczegółów dla danej sesji. *@
+                <a asp-action="Index" asp-route-trainingSessionId="@Model.TrainingSessionId" class="btn btn-secondary">Anuluj</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* Sekcja włączająca skrypty walidacji po stronie klienta. *@
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

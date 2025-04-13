@@ -1,0 +1,54 @@
+@* Definiuje model dla widoku jako pojedynczy obiekt TrainingSession. *@
+@model BeFit.Models.TrainingSession
+
+@{
+    // Ustawia tytuł strony.
+    ViewData["Title"] = "Edytuj Sesję Treningową";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Sesja Treningowa</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @* Formularz wysyłający dane do akcji Edit kontrolera TrainingSessions. *@
+        <form asp-action="Edit">
+            @* Kontener na komunikaty błędów walidacji całego modelu. *@
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @* Ukryte pole przechowujące ID edytowanej sesji. *@
+            <input type="hidden" asp-for="Id" />
+            @* Ukryte pole przechowujące UserId (nieedytowalne, ale potrzebne do powiązania). *@
+            @* Uwaga: Kontroler powinien i tak nadpisać UserId wartością zalogowanego użytkownika dla bezpieczeństwa. *@
+            @* <input type="hidden" asp-for="UserId" /> *@ @* Można usunąć, jeśli kontroler zawsze ustawia UserId *@
+
+            <div class="form-group mb-3"> @* Dodano mb-3 dla marginesu dolnego *@
+                @* Etykieta dla pola StartTime. *@
+                <label asp-for="StartTime" class="control-label"></label>
+                @* Pole wprowadzania dla pola StartTime. *@
+                <input asp-for="StartTime" class="form-control" type="datetime-local" />
+                @* Miejsce na komunikat błędu walidacji dla pola StartTime. *@
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3"> @* Dodano mb-3 dla marginesu dolnego *@
+                @* Etykieta dla pola EndTime. *@
+                <label asp-for="EndTime" class="control-label"></label>
+                @* Pole wprowadzania dla pola EndTime. *@
+                <input asp-for="EndTime" class="form-control" type="datetime-local" />
+                @* Miejsce na komunikat błędu walidacji dla pola EndTime. *@
+                <span asp-validation-for="EndTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @* Przycisk zapisujący zmiany. *@
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+                @* Link powrotu do listy sesji treningowych. *@
+                <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* Sekcja włączająca skrypty walidacji po stronie klienta. *@
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

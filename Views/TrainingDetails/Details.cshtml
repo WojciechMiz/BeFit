@@ -1,0 +1,55 @@
+@* Definiuje model dla widoku jako pojedynczy obiekt TrainingDetail. *@
+@model BeFit.Models.TrainingDetail
+
+@{
+    // Ustawia tytuł strony.
+    ViewData["Title"] = "Szczegóły Wykonanego Ćwiczenia";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Szczegół Treningu</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @* Wyświetla nazwę dla pola Exercise.Name. *@
+            @Html.DisplayNameFor(model => model.Exercise.Name)
+        </dt>
+        <dd class="col-sm-9">
+            @* Wyświetla wartość pola Exercise.Name. *@
+            @Html.DisplayFor(model => model.Exercise.Name)
+        </dd>
+        <dt class="col-sm-3">
+            @* Wyświetla nazwę dla pola Load. *@
+            @Html.DisplayNameFor(model => model.Load)
+        </dt>
+        <dd class="col-sm-9">
+            @* Wyświetla wartość pola Load. *@
+            @Html.DisplayFor(model => model.Load)
+        </dd>
+        <dt class="col-sm-3">
+            @* Wyświetla nazwę dla pola Sets. *@
+            @Html.DisplayNameFor(model => model.Sets)
+        </dt>
+        <dd class="col-sm-9">
+            @* Wyświetla wartość pola Sets. *@
+            @Html.DisplayFor(model => model.Sets)
+        </dd>
+        <dt class="col-sm-3">
+            @* Wyświetla nazwę dla pola Repetitions. *@
+            @Html.DisplayNameFor(model => model.Repetitions)
+        </dt>
+        <dd class="col-sm-9">
+            @* Wyświetla wartość pola Repetitions. *@
+            @Html.DisplayFor(model => model.Repetitions)
+        </dd>
+        @* Usunięto wyświetlanie dat sesji - zakładamy kontekst sesji znany z widoku Index. *@
+    </dl>
+</div>
+<div>
+    @* Link do akcji edycji bieżącego szczegółu. *@
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Edytuj</a>
+    @* Link powrotu do listy szczegółów dla danej sesji. *@
+    <a asp-action="Index" asp-route-trainingSessionId="@Model?.TrainingSessionId" class="btn btn-secondary">Powrót do Listy Ćwiczeń Sesji</a>
+</div>

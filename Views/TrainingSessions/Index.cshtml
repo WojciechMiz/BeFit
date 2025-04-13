@@ -1,0 +1,64 @@
+@* Definiuje model dla widoku jako kolekcję obiektów TrainingSession. *@
+@model IEnumerable<BeFit.Models.TrainingSession>
+
+@{
+    // Ustawia tytuł strony.
+    ViewData["Title"] = "Moje Sesje Treningowe";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    @* Link do akcji tworzenia nowej sesji treningowej. *@
+    <a asp-action="Create" class="btn btn-primary">Utwórz Nową Sesję</a>
+</p>
+
+@* Sprawdza, czy model zawiera jakiekolwiek sesje. *@
+@if (!Model.Any())
+{
+    <p>Nie masz jeszcze żadnych zarejestrowanych sesji treningowych.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @* Wyświetla nazwę dla pola StartTime (z atrybutu [Display] w modelu). *@
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().StartTime)
+                </th>
+                <th>
+                    @* Wyświetla nazwę dla pola EndTime (z atrybutu [Display] w modelu). *@
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().EndTime)
+                </th>
+                <th></th> @* Pusta kolumna na przyciski akcji. *@
+            </tr>
+        </thead>
+        <tbody>
+            @* Pętla iterująca po każdej sesji w modelu. *@
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @* Wyświetla sformatowaną wartość pola StartTime. *@
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @* Wyświetla sformatowaną wartość pola EndTime. *@
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        @* Link do zarządzania szczegółami (ćwiczeniami) tej sesji. *@
+                        <a asp-controller="TrainingDetails" asp-action="Index" asp-route-trainingSessionId="@item.Id" class="btn btn-success btn-sm">Ćwiczenia</a>
+                        @* Link do akcji edycji sesji. *@
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edytuj</a>
+                        @* Link do akcji wyświetlania szczegółów sesji. *@
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Szczegóły</a>
+                        @* Link do akcji usuwania sesji. *@
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,78 @@
+@* Definiuje model dla widoku jako kolekcję obiektów ExerciseStatisticViewModel. *@
+@model IEnumerable<BeFit.ViewModels.ExerciseStatisticViewModel>
+
+@{
+    // Ustawia tytuł strony.
+    ViewData["Title"] = "Moje Statystyki (Ostatnie 4 Tygodnie)";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@* Sprawdza, czy w ViewBag znajduje się komunikat o braku danych (ustawiony w kontrolerze). *@
+@if (ViewBag.Message != null)
+{
+    <p>@ViewBag.Message</p>
+}
+@* Alternatywnie, sprawdza, czy model nie zawiera żadnych danych. *@
+else if (!Model.Any())
+{
+    <p>Brak statystyk do wyświetlenia dla ostatnich 4 tygodni.</p>
+}
+else
+{
+    @* Tabela wyświetlająca statystyki. *@
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @* Wyświetla nazwę dla pola ExerciseName (z ViewModelu). *@
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().ExerciseName)
+                </th>
+                <th>
+                    @* Wyświetla nazwę dla pola TimesPerformed. *@
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().TimesPerformed)
+                </th>
+                <th>
+                    @* Wyświetla nazwę dla pola TotalReps. *@
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().TotalReps)
+                </th>
+                <th>
+                    @* Wyświetla nazwę dla pola AverageLoad. *@
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().AverageLoad)
+                </th>
+                <th>
+                    @* Wyświetla nazwę dla pola MaximumLoad. *@
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().MaximumLoad)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @* Pętla iterująca po każdym elemencie statystyk w modelu. *@
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @* Wyświetla wartość pola ExerciseName. *@
+                        @Html.DisplayFor(modelItem => item.ExerciseName)
+                    </td>
+                    <td>
+                        @* Wyświetla wartość pola TimesPerformed. *@
+                        @Html.DisplayFor(modelItem => item.TimesPerformed)
+                    </td>
+                    <td>
+                        @* Wyświetla wartość pola TotalReps. *@
+                        @Html.DisplayFor(modelItem => item.TotalReps)
+                    </td>
+                    <td>
+                        @* Wyświetla sformatowaną wartość pola AverageLoad (używa [DisplayFormat] z ViewModelu). *@
+                        @Html.DisplayFor(modelItem => item.AverageLoad)
+                    </td>
+                    <td>
+                        @* Wyświetla sformatowaną wartość pola MaximumLoad (używa [DisplayFormat] z ViewModelu). *@
+                        @Html.DisplayFor(modelItem => item.MaximumLoad)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

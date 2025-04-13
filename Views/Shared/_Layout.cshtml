@@ -1,0 +1,91 @@
+@* Importuje przestrzeń nazw Identity dla sprawdzania ról i autentykacji. *@
+@using Microsoft.AspNetCore.Identity
+
+<!DOCTYPE html>
+<html lang="pl"> @* Ustawia język strony na polski. *@
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @* Ustawia tytuł strony, pobierając go z ViewData lub używając domyślnego "BeFit". *@
+    <title>@ViewData["Title"] - BeFit</title>
+    @* Odwołanie do skompilowanego pliku CSS Bootstrapa. *@
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @* Odwołanie do głównego pliku CSS aplikacji. *@
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* Odwołanie do dodatkowych stylów specyficznych dla projektu (jeśli istnieją). *@
+    <link rel="stylesheet" href="~/BeFit.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        @* Główny pasek nawigacyjny. *@
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid"> @* Używa container-fluid dla pełnej szerokości. *@
+                @* Link do strony głównej z nazwą aplikacji. *@
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BeFit</a>
+                @* Przycisk rozwijający menu na mniejszych ekranach. *@
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                @* Kontener na elementy nawigacji, które zwijają się na mniejszych ekranach. *@
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    @* Główna lista linków nawigacyjnych. *@
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            @* Link do strony głównej. *@
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Strona Główna</a>
+                        </li>
+                        <li class="nav-item">
+                            @* Link do listy typów ćwiczeń (dostępny dla wszystkich). *@
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Exercises" asp-action="Index">Typy Ćwiczeń</a>
+                        </li>
+                        @* Sprawdza, czy użytkownik jest zalogowany. *@
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                @* Link do listy sesji treningowych (tylko dla zalogowanych). *@
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TrainingSessions" asp-action="Index">Moje Sesje</a>
+                            </li>
+                            <li class="nav-item">
+                                @* Link do statystyk użytkownika (tylko dla zalogowanych). *@
+                                <a class="nav-link text-dark" asp-area="" asp-controller="UserStatistics" asp-action="Index">Moje Statystyki</a>
+                            </li>
+                            @* Sprawdza, czy zalogowany użytkownik ma rolę Administratora. *@
+                            @if (User.IsInRole("Administrator"))
+                            {
+                                // Można tu dodać dodatkowe linki widoczne tylko dla administratora, np.:
+                                // <li class="nav-item">
+                                //     <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Users">Zarządzaj Użytkownikami</a>
+                                // </li>
+                            }
+                        }
+                    </ul>
+                    @* Renderuje częściowy widok _LoginPartial, który obsługuje logowanie/rejestrację/wylogowanie. *@
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @* Miejsce, w którym renderowana jest zawartość konkretnego widoku. *@
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            @* Stopka strony. *@
+            &copy; @DateTime.Now.Year - BeFit - <a asp-area="" asp-controller="Home" asp-action="Privacy">Polityka Prywatności</a>
+        </div>
+    </footer>
+    @* Odwołanie do biblioteki jQuery. *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @* Odwołanie do biblioteki Bootstrap (JavaScript). *@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @* Odwołanie do głównego pliku JavaScript aplikacji. *@
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @* Miejsce na dodatkowe skrypty definiowane w poszczególnych widokach (np. walidacja). *@
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
